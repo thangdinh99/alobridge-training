@@ -1,0 +1,69 @@
+
+//Tính trừu tượng được thể hiện qua việc sử dụng abstract và interface
+<?
+abstract class Animal {
+    abstract function eat();
+    abstract function sleep();
+    abstract function play();
+}
+interface Run {
+    function run();
+}
+// Tính kế thừa,đa hình được thể hiện qua việc lớp Cat,Dog kế thừa từ Pet
+
+
+class Pet extends Animal {
+    protected $name;
+    function __construct($pet_name) {
+        $this->name = $pet_name;
+    }
+    function eat() {
+        echo "$this->name is eating.\n";
+        $this->play();
+    }
+    function sleep() {
+        echo "$this->name is sleeping.\n";
+    }
+    function play() {
+        echo "$this->name is playing.\n";
+    }
+}
+
+
+class Cat extends Pet {
+
+    function play() {
+        echo "$this->name is climbing.\n";
+    }
+}
+
+
+
+class Dog extends Pet implements Run{
+	public function run() {
+	    echo "Dog is running\n";
+	}
+    public function play() {
+        echo "$this->name is fetching.\n";
+    }
+}
+
+
+$dog = new Dog('Satchel');
+$cat = new Cat('Bucky');
+$pet = new Pet('Rob');
+
+$dog->eat();
+$cat->eat();
+$pet->eat();
+
+$dog->sleep();
+$cat->sleep();
+$pet->sleep();
+
+$dog->play();
+$cat->play();
+$pet->play();
+
+$dog->run();
+?>
