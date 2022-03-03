@@ -13,8 +13,10 @@
 				<h1>Login</h1>
 				<input type="text" name="username" placeholder="Username" />
 				<input type="password" name="password" placeholder="Password" />
-            <p>Remember Me</p>
-            <input type="checkbox" name="remember" id="remember" >
+            <div class="remember-me">
+               <input type="checkbox" name="remember" id="remember" />
+               <label for="remember">Remember me</label>
+            </div>
 				<button type="submit" name="login">Log In</button>
 			</form>
 		</div>

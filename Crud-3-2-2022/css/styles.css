@@ -97,10 +97,21 @@ input {
 
 .image-container {
     position: absolute;
+    object-fit: cover;
     top: 0;
     left: 0;
     width: 50%;
     height: 100%;
+}
+
+.remember-me {
+    white-space: nowrap;
+}
+
+#remember {
+    margin : 10px 0px;
+    padding: 0px;
+    width: auto;
 }
 
 @media only screen and (max-width: 414px) {
