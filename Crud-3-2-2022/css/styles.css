@@ -106,6 +106,7 @@ input {
 
 .remember-me {
     white-space: nowrap;
+    margin: 15px 0px;
 }
 
 #remember {
