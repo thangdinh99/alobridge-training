@@ -40,13 +40,13 @@ p {
 }
 
 button {
-    border-radius: 20px;
-    border: 1px solid #FF4B2B;
-    background-color: #FF4B2B;
+    border-radius: 5px;
+    border: 1px solid #2b2bff;
+    background-color: #2b2bff;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
-    padding: 12px 45px;
+    padding: 12px 115px;
     letter-spacing: 1px;
     text-transform: uppercase;
     
@@ -103,11 +103,16 @@ input {
     height: 100%;
 }
 
-/* @media only screen and (max-width: 375px) {
-    .form-container{
+@media only screen and (max-width: 414px) {
+    .container {
         width: 100%;
+        min-height: 100%;
     }
     .image-container {
-        display: flex;
+        display: none;
     }
-  } */
+    .log-in-container {
+        left: 0;
+        width: 100%;
+    }
+  }
