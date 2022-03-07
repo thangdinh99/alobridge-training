@@ -5,6 +5,7 @@ CREATE TABLE `products` (
   `description` varchar(255) NOT NULL,
   `quantity` int(20) NOT NULL,
   `price` int(20) NOT NULL,
+  `image` varchar(255) NOT NULL,
   `is_deleted` boolean NOT NULL,
   PRIMARY KEY (`id`)
 ) ;
