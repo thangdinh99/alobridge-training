@@ -1,41 +1,7 @@
 <?php
 session_start();
-include_once './config/myConfig.php';
-if (isset($_POST['login'])) {
-   if (empty($_POST['username']) || empty($_POST['password'])) {
-      echo "Username or password is empty";
-   } else {
-      $username = $_POST['username'];
-      $password = $_POST['password'];
-      //check login
-      $userQuery = "SELECT * from users where username='$username' AND password='$password'";
-      $userRes = mysqli_query($conn, $userQuery);
-      $userRow = mysqli_num_rows($userRes);
-      if ($userRow > 0) {
-         //session login
-      $userData = mysqli_fetch_assoc($userRes);
-      $_SESSION['user_id'] = $userData['id'];
-	  
-      //check checkbox
-      if (!empty($_POST['remember'])) {
-         $rememberCheckbox = $_POST['remember'];
-         ///set cookie
-         setcookie('username', $username, time() + 3600 * 24 * 7);
-         setcookie('password', $password, time() + 3600 * 24 * 7);
-         setcookie('userLogin', $rememberCheckbox, time() + 3600 * 24 * 7);
-      } else {
-         //expire cookie
-         setcookie('username', $username, 30);
-         setcookie('password', $password, 30);
-      };
-      //redirect to listProduct
-	  
-      header("Location: .\pages\listProduct.php");
-      } else {
-         echo "Username or password is incorrect";
-      }
-   }
-}
+require './controller/loginController.php';
+$login = new LoginController();
 ?>
 <!DOCTYPE html>
 <html>
