@@ -2,42 +2,45 @@
 require "./config/myConfig.php";
 class LoginController extends Database
 {
-
+   const COOKIE_EXPIRED_TIME = 3600 * 24 * 7;  
    public function __construct()
    {
-      parent::__construct();
       $this->login();
    }
+   public function getData($sql) {
+
+      $db = Database::getInstance();
+      $mysqli = $db->getConnection(); 
+      $result = $mysqli->query($sql);
+      $db->disConnect();
+      return $result;
+  }
+
    public function requiredFeild(){
-      if(empty($_POST['username']) || empty($_POST['password'])){
-         return true;
-      }else{
-         return false;
-      }
+      return (empty($_POST['username']) || empty($_POST['password']));
    }
    public function findUser($username, $password){
       $userQuery = "SELECT * from users where username='$username' AND password='$password'";
-      $userRes = mysqli_query($this->conn, $userQuery);
-      return $userRes;
+      return $this->getData($userQuery);
+      // return $this->run()->query($userQuery);
    }
 
    public function rememberMe($username,$password){
       if (!empty($_POST['remember'])) {
          $rememberCheckbox = $_POST['remember'];
          ///set cookie
-         setcookie('username', $username, time() + 3600 * 24 * 7);
-         setcookie('password', $password, time() + 3600 * 24 * 7);
-         setcookie('userLogin', $rememberCheckbox, time() + 3600 * 24 * 7);
+         setcookie('username', $username,time() + self::COOKIE_EXPIRED_TIME);
+         setcookie('password', $password,time() + self::COOKIE_EXPIRED_TIME);
+         setcookie('userLogin', $rememberCheckbox,time() + self::COOKIE_EXPIRED_TIME);
       } else {
          //expire cookie
          setcookie('username', $username, 30);
          setcookie('password', $password, 30);
       };
    }
-   public function sessionLogin($userRes){
+   public function redirectToLogin($userRes){
       $userData = mysqli_fetch_assoc($userRes);
       $_SESSION['user_id'] = $userData['id'];
-      //redirect to listProduct
       header("Location: .\pages\home.php");
    }
    public function login()
@@ -50,13 +53,12 @@ class LoginController extends Database
             $password = $_POST['password'];
             //check login
             $userRes = $this->findUser($username,$password);
-            $userRow = mysqli_num_rows($userRes);
-            if ($userRow > 0) {
-               
+            if ($userRes->num_rows > 0) {
+
                //remember me
                $this->rememberMe($username, $password);
-               //session login
-              $this->sessionLogin($userRes);
+               //redirect login
+              $this->redirectToLogin($userRes);
             } else {
                echo "Username or password is incorrect";
             }
