@@ -1,0 +1,118 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #e6e6e6;
+}
+
+
+.sidebar {
+    position: relative;
+    height: 100vh;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.sidebar-header {
+    padding-left: 15px;
+    height: 70px;
+    background-color: #f0efef;
+}
+
+.sidebar-header-item {
+    line-height: 70px
+}
+
+#sidebar-header-text {
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.sidebar-header span:last-child {
+    float: right;
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+.sidebar-header-item i {
+    font-size: 25px;
+    color: black;
+}
+
+.sidebar-main {
+    margin-top: 20px;
+    
+}
+
+.sidebar-main-header {
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+.sidebar-main-list-item {
+    height: 50px;
+    padding-left: 15px;
+    transition: all 0.5s ease;
+}
+
+.sidebar-main-item {
+    line-height: 50px
+}
+
+.sidebar .sidebar-main a {
+    text-decoration: none;
+    color: inherit;
+
+}
+
+.sidebar-footer{
+    position : absolute;
+    width: 100%;
+    bottom: 0;
+    display:flex;
+    margin-bottom: 0px;
+    height: 70px;
+    background-color:#f0efef ;
+}
+
+.change-mode{
+    margin : auto;
+    padding : 8px;
+    background-color: #e6e6e6;
+    border-radius: 5px;
+}
+
+.sidebar-footer .change-mode button{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 30px;
+    background-color: #e6e6e6;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+
+.sidebar-footer .change-mode button:first-child{
+    background-color:white;
+}
+
+.sidebar-main-list-item:hover {
+    background-color: #e6e6e6;
+}
+nav {
+    height:70px
+}
+.breadcrumb {
+    background-color: #f0efef;
+    line-height: 70px;
+    border-left: 1px solid black;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
