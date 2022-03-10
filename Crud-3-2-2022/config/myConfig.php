@@ -50,4 +50,12 @@ class Database
         }
         return self::$_instance;
     }
+
+    public function getData($sql) {
+
+        $db = Database::getInstance();
+        $mysqli = $db->getConnection(); 
+        $result = $mysqli->query($sql);
+        return $result;
+    }
 }

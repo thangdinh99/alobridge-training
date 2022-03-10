@@ -3,6 +3,8 @@ session_start();
 if (!isset($_SESSION['user_id'])) { //if login in session is not set
     header("Location: ../index.php");
 }
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -40,15 +42,15 @@ if (!isset($_SESSION['user_id'])) { //if login in session is not set
                                 <span class="sidebar-main-item">
                                     <i class="fas fa-archway"></i>
                                 </span>
-                                <span class="sidebar-main-item" id="sidebar-main-text"> Dashboard</span>
+                                <span class="sidebar-main-item" id="sidebar-main-text"> Danh sách sản phẩm</span>
                             </div>
                         </a>
-                        <a href="home.php?page=add-product">
+                        <a href="home.php?view=add-product">
                             <div class="sidebar-main-list-item">
                                 <span class="sidebar-main-item">
                                     <i class="fas fa-archway"></i>
                                 </span>
-                                <span class="sidebar-main-item" id="sidebar-main-text"> Bank Accounts</span>
+                                <span class="sidebar-main-item" id="sidebar-main-text">Thêm sản phẩm</span>
                             </div>
                         </a>
                         <a href="#">
@@ -97,16 +99,16 @@ if (!isset($_SESSION['user_id'])) { //if login in session is not set
                 </nav>
                 <div class="page-content">
                 <?php 
-							if (isset($_GET['page'])) {
-								$page = $_GET['page'];
+							if (isset($_GET['view'])) {
+								$view = $_GET['view'];
 							}else{
-								$page = 'home';
+								$view = 'home';
 							}
 
-							switch ($page) {
+							switch ($view) {
                                 
 								case 'add-product':
-									include './createProduct.php';
+									include './addProduct.php';
 									break;
 
 								case 'home':

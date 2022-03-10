@@ -7,14 +7,14 @@ class LoginController extends Database
    {
       $this->login();
    }
-   public function getData($sql) {
+//    public function getData($sql) {
 
-      $db = Database::getInstance();
-      $mysqli = $db->getConnection(); 
-      $result = $mysqli->query($sql);
-      $db->disConnect();
-      return $result;
-  }
+//       $db = Database::getInstance();
+//       $mysqli = $db->getConnection(); 
+//       $result = $mysqli->query($sql);
+//       $db->disConnect();
+//       return $result;
+//   }
 
    public function requiredFeild(){
       return (empty($_POST['username']) || empty($_POST['password']));
@@ -41,7 +41,7 @@ class LoginController extends Database
    public function redirectToLogin($userRes){
       $userData = mysqli_fetch_assoc($userRes);
       $_SESSION['user_id'] = $userData['id'];
-      header("Location: .\pages\home.php");
+      header("Location: ./views/home.php");
    }
    public function login()
    {
