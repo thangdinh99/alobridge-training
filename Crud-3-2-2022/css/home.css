@@ -52,12 +52,22 @@ body {
     font-weight: bold;
     padding-left: 15px;
 }
+.active{
+    background-color: #e6e6e6;
+}
 
 .sidebar-main-list-item {
     height: 50px;
     padding-left: 15px;
     transition: all 0.5s ease;
+   
 }
+
+.sidebar-main-list-item:hover {
+    background-color: #e6e6e6;
+}
+
+
 
 .sidebar-main-item {
     line-height: 50px
@@ -66,7 +76,7 @@ body {
 .sidebar .sidebar-main a {
     text-decoration: none;
     color: inherit;
-
+    background-color: red;
 }
 
 .sidebar-footer{
@@ -103,9 +113,7 @@ body {
     background-color:white;
 }
 
-.sidebar-main-list-item:hover {
-    background-color: #e6e6e6;
-}
+
 nav {
     height:70px
 }
@@ -116,3 +124,4 @@ nav {
     padding-top: 0px;
     padding-bottom: 0px;
 }
+

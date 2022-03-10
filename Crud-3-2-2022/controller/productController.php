@@ -48,12 +48,25 @@ class ProductController extends Database
       $description = $_POST['description'];
       $image = $_FILES['image']['name'];
       $image_tmp = $_FILES['image']['tmp_name'];
-      $image_path = "../public/images/" . $image;
+      $image_path = "../images/" . $image;
       move_uploaded_file($image_tmp, $image_path);
-      $sql = "INSERT INTO products(name, price, description, image) VALUES ('$name', '$price', '$description', '$image')";
-      $this->getData($sql);
+      if ($name == "" || $price == "" || $description == "" || $image == "") {
+         echo "Vui lòng nhập đầy đủ thông tin";
+      } else {
+         $sql = "INSERT INTO products(name,price,description,image) VALUES('$name','$price','$description','$image')";
+         $this->getData($sql);
+         header("location:index.php?view=listProduct");
+      }
    }
-
+   public function getTags(){
+      $sql = "SELECT * FROM tags";
+      $result = $this->getData($sql);
+      $tags = [];
+      while ($row = $result->fetch_assoc()) {
+         $tags[] = $row;
+      }
+      return $tags;
+   }
    public function editProduct()
    {
       $id = $_GET['id'];
@@ -78,7 +91,7 @@ class ProductController extends Database
    public function deleteProduct()
    {
       $id = $_GET['id'];
-      $sql = "UPDATE products SET is_deleted=true WHERE id = $id";
+      $sql = "UPDATE products SET is_deleted=1 WHERE id = $id";
       $result = $this->getData($sql);
       header("Location: index.php?view=listProduct");
    }
