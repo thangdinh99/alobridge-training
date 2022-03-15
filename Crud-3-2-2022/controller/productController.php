@@ -77,7 +77,7 @@ class ProductController extends Database
       }
    }
    public function validateForm( $name, $description, $price, $quantity, $tags){
-         if(empty($name) || empty($description) || empty($price) || empty($quantity) || empty($image) || empty($tags) || !is_numeric($quantity)){
+         if(empty($name) || empty($description) || empty($price) || empty($quantity) || empty($image) || empty($tags) || !is_numeric($quantity) || !is_numeric($price) || $quantity < 0 || $price < 0){
             return false;
          }
          return true;
