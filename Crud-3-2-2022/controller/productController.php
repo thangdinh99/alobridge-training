@@ -133,6 +133,21 @@ class ProductController extends Database
       }
       return $tags;
    }
+
+   public function getProductById(){
+      $id = $_GET['id'];
+      $sql = "SELECT products.id,products.name,products.description,products.price,products.quantity,products.image,
+      GROUP_CONCAT(tags.name) as 'tagsname'
+      FROM products LEFT JOIN product_tag ON products.id = product_tag.product_id LEFT JOIN tags ON product_tag.tag_id=tags.id
+      WHERE products.is_deleted = 0 AND products.id = '$id'
+      GROUP BY products.id";
+      $result = $this->getData($sql);
+      $product = [];
+      while ($row = $result->fetch_assoc()) {
+         $product[] = $row;
+      }
+      return $product;
+   }
    public function editProduct()
    {
       $id = $_GET['id'];
@@ -159,6 +174,6 @@ class ProductController extends Database
       $id = $_GET['id'];
       $sql = "UPDATE products SET is_deleted=1 WHERE id = $id";
       $result = $this->getData($sql);
-      header("Location: index.php?view=listProduct");
+      header("Location: home.php?view=listProduct");
    }
 }

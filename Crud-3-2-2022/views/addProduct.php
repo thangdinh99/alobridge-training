@@ -2,9 +2,8 @@
 require "../controller/productController.php";
 $productController = new ProductController();
 $tags = $productController->getTags();
-if(isset($_POST['addProduct'])){
+if (isset($_POST['addProduct'])) {
     $productController->addProduct();
-    
 }
 
 ?>
@@ -27,16 +26,17 @@ if(isset($_POST['addProduct'])){
         <input type="number" class="form-control" name="quantity" id="quantity">
     </div>
     <div class="form-group">
-        <label for="file">thêm ảnh</label>
-        <input type="file" class="form-control-file" name="image" id="image">
+        <label for="file">Thêm ảnh</label>
+        <input type="file" class="form-control-file" name="image" id="image" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])">
+        <img id="preview" alt="Preview" width="100" height="100" />
     </div>
     <div class="form-group">
         <div class="form-check form-check-inline">
-            <?php foreach($tags as $tag) { ?>
+            <?php foreach ($tags as $tag) { ?>
                 <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="<?php echo $tag['id']; ?>">
-                <label class="form-check-label" ><?php echo $tag['name'];?></label>"
-           <?php }; ?>
-            
+                <label class="form-check-label"><?php echo $tag['name']; ?></label>"
+            <?php }; ?>
+
         </div>
     </div>
 
