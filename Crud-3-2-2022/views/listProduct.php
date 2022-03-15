@@ -27,7 +27,7 @@ $listResult = $productController->listResult;
                 <td><?php echo $row['price']; ?></td>
                 <td><?php echo $row['description']; ?></td>
                 <td><?php echo $row['tagsname']; ?></td>
-                <td><img src="<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="100px" height="100px"></td>
+                <td><img src="../images/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="100px" height="100px"></td>
                 <td>
                     <a href="index.php?view=editProduct&id=<?php echo $row['id']; ?>" class="btn btn-primary">Edit</a>
                     <a href="index.php?view=deleteProduct&id=<?php echo $row['id']; ?>" class="btn btn-danger">Delete</a>

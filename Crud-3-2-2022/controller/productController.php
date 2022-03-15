@@ -6,13 +6,14 @@ class ProductController extends Database
    public $currentPage;
    public $totalPage;
    public $listResult;
+   public $imageFile;
    public function __construct()
    {
    }
 
    public function pagination()
    {
-     
+
       $this->listResult = $this->getData("SELECT COUNT(*) as total FROM products");
       $row = $this->listResult->fetch_assoc();
       $totalRecord = $row['total'];
@@ -30,35 +31,90 @@ class ProductController extends Database
       FROM products LEFT JOIN product_tag ON products.id = product_tag.product_id LEFT JOIN tags ON product_tag.tag_id=tags.id
       GROUP BY products.id LIMIT $start, $limit");
    }
-   // public function listProduct()
-   // {
-   //    $sql = "SELECT * FROM products";
-   //    $result = $this->getData($sql);
-   //    $products = [];
-   //    while ($row = $result->fetch_assoc()) {
-   //       $products[] = $row;
-   //    }
-   //    return $products;
-   // }
 
+   public function checkName($name)
+   {
+      $sql = "SELECT * FROM products WHERE name = '$name'";
+      $result = $this->getData($sql);
+      if ($result->num_rows > 0) {
+         return false;
+      }
+      return true;
+   }
+
+   public function validateFile()
+   {
+      if (isset($_FILES['image'])) {
+         $image = $_FILES['image'];
+         $imageName = $image['name'];
+         $imageTmp = $image['tmp_name'];
+         $imageSize = $image['size'];
+         $imageError = $image['error'];
+         $imageType = $image['type'];
+         $imageExt = explode('.', $imageName);
+         $imageActualExt = strtolower(end($imageExt));
+         $imageAllowedExt = array('jpg', 'jpeg', 'png');
+         if (in_array($imageActualExt, $imageAllowedExt)) {
+            if ($imageError === 0) {
+               if ($imageSize < 1000000) {
+                  $imageNameNew = uniqid('', true) . "." . $imageActualExt;
+                  $imageDestination = '../images/' . $imageNameNew;
+                  move_uploaded_file($imageTmp, $imageDestination);
+                  $this->imageFile = $imageNameNew;
+                  return true;
+               } else {
+                  echo "Your image is too big";
+                  return false;
+               }
+            } else {
+               echo "There was an error uploading your image";
+               return false;
+            }
+         } else {
+            echo "You cannot upload files of this type";
+            return false;
+         }
+      }
+   }
+   public function validateForm( $name, $description, $price, $quantity, $tags){
+         if(empty($name) || empty($description) || empty($price) || empty($quantity) || empty($image) || empty($tags)){
+            return false;
+         }
+         return true;
+      
+   }
    public function addProduct()
    {
+
       $name = $_POST['name'];
       $price = $_POST['price'];
       $description = $_POST['description'];
-      $image = $_FILES['image']['name'];
-      $image_tmp = $_FILES['image']['tmp_name'];
-      $image_path = "../images/" . $image;
-      move_uploaded_file($image_tmp, $image_path);
-      if ($name == "" || $price == "" || $description == "" || $image == "") {
-         echo "Vui lòng nhập đầy đủ thông tin";
-      } else {
-         $sql = "INSERT INTO products(name,price,description,image) VALUES('$name','$price','$description','$image')";
-         $this->getData($sql);
-         header("location:index.php?view=listProduct");
+      $quantity = $_POST['quantity'];
+      $tags = $_POST['tag'];
+      if(!$this->validateForm( $name, $description, $price, $quantity, $tags)){
+         echo   "Fill all information";
       }
+      elseif (!$this->checkName($name)) {
+         echo "The product name was already existed";
+      } elseif (!$this->validateFile()) {
+         echo "File has error : ";
+      } else {
+         $sql = "INSERT INTO products (name,price,description,quantity,image) VALUES ('$name','$price','$description','$quantity','$this->imageFile')";
+         $result = $this->getData($sql);
+         if ($result) {
+            foreach ($tags as $tag) {
+               $sql = "INSERT INTO product_tag(product_id,tag_id) VALUES((SELECT id FROM products ORDER BY id DESC LIMIT 1),(SELECT id FROM tags WHERE id='$tag'))";
+               $result = $this->getData($sql);
+            }
+            echo("<script>location.href = './home.php';</script>");
+         } else {
+            echo "Some error occur when insert data";
+         }
+      }
+      
    }
-   public function getTags(){
+   public function getTags()
+   {
       $sql = "SELECT * FROM tags";
       $result = $this->getData($sql);
       $tags = [];
