@@ -77,7 +77,7 @@ class ProductController extends Database
       }
    }
    public function validateForm( $name, $description, $price, $quantity, $tags){
-         if(empty($name) || empty($description) || empty($price) || empty($quantity) || empty($image) || empty($tags)){
+         if(empty($name) || empty($description) || empty($price) || empty($quantity) || empty($image) || empty($tags) || !is_numeric($quantity)){
             return false;
          }
          return true;
@@ -122,6 +122,9 @@ class ProductController extends Database
          $tags[] = $row;
       }
       return $tags;
+   }
+   public function getTagsById(){
+
    }
    public function editProduct()
    {
