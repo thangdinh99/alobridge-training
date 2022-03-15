@@ -118,7 +118,12 @@ if (!isset($_SESSION['user_id'])) { //if login in session is not set
                         case 'home':
                             include './listProduct.php';
                             break;
-
+                        case 'edit-product':
+                            include './editProduct.php';
+                            break;
+                        case 'delete-product':
+                            include './deleteProduct.php';
+                            break;
                         default:
                             echo "<h4 style='color: red;'>ERROR 404, trang không tồn tại <span><a href='index.php' style='color: blue;'>Quay lại</a></span></h4>";
                             break;
@@ -129,14 +134,6 @@ if (!isset($_SESSION['user_id'])) { //if login in session is not set
         </div>
     </div>
     <!-- Optional JavaScript -->
-    <script>
-        $(document).ready(function() {
-            $('.sidebar-main-list-item').click(function() {
-                $('.sidebar-main-list-item').removeClass('active');
-                $(this).addClass('active');
-            });
-        });
-    </script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
