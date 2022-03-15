@@ -29,12 +29,13 @@ class ProductController extends Database
       $this->listResult = $this->getData("SELECT products.id,products.name,products.description,products.price,products.image,
       GROUP_CONCAT(tags.name) as 'tagsname'
       FROM products LEFT JOIN product_tag ON products.id = product_tag.product_id LEFT JOIN tags ON product_tag.tag_id=tags.id
+      WHERE products.is_deleted = 0
       GROUP BY products.id LIMIT $start, $limit");
    }
 
    public function checkName($name)
    {
-      $sql = "SELECT * FROM products WHERE name = '$name'";
+      $sql = "SELECT * FROM products WHERE name = '$name' and is_delete = 0";
       $result = $this->getData($sql);
       if ($result->num_rows > 0) {
          return false;
@@ -123,8 +124,14 @@ class ProductController extends Database
       }
       return $tags;
    }
-   public function getTagsById(){
-
+   public function getTagsById($id){
+      $sql = "SELECT tags.id,tags.name FROM tags LEFT JOIN product_tag ON tags.id = product_tag.tag_id WHERE product_id = '$id'";
+      $result = $this->getData($sql);
+      $tags = [];
+      while ($row = $result->fetch_assoc()) {
+         $tags[] = $row;
+      }
+      return $tags;
    }
    public function editProduct()
    {
