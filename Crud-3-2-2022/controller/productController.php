@@ -77,12 +77,12 @@ class ProductController extends Database
          }
       }
    }
-   public function validateForm( $name, $description, $price, $quantity, $tags){
-         if(empty($name) || empty($description) || empty($price) || empty($quantity) || empty($image) || empty($tags) || !is_numeric($quantity) || !is_numeric($price) || $quantity < 0 || $price < 0){
-            return false;
-         }
-         return true;
-      
+   public function validateForm($name, $description, $price, $quantity, $tags)
+   {
+      if (empty($name) || empty($description) || empty($price) || empty($quantity) ||  empty($tags) || !is_numeric($quantity) || !is_numeric($price) || $quantity < 0 || $price < 0) {
+         return false;
+      }
+      return true;
    }
    public function addProduct()
    {
@@ -92,10 +92,9 @@ class ProductController extends Database
       $description = $_POST['description'];
       $quantity = $_POST['quantity'];
       $tags = $_POST['tag'];
-      if(!$this->validateForm( $name, $description, $price, $quantity, $tags)){
+      if (!$this->validateForm($name, $description, $price, $quantity, $tags)) {
          echo   "Fill all information";
-      }
-      elseif (!$this->checkName($name)) {
+      } elseif (!$this->checkName($name)) {
          echo "The product name was already existed";
       } elseif (!$this->validateFile()) {
          echo "File has error : ";
@@ -107,12 +106,11 @@ class ProductController extends Database
                $sql = "INSERT INTO product_tag(product_id,tag_id) VALUES((SELECT id FROM products ORDER BY id DESC LIMIT 1),(SELECT id FROM tags WHERE id='$tag'))";
                $result = $this->getData($sql);
             }
-            echo("<script>location.href = './home.php';</script>");
+            echo ("<script>location.href = './home.php';</script>");
          } else {
             echo "Some error occur when insert data";
          }
       }
-      
    }
    public function getTags()
    {
@@ -124,7 +122,8 @@ class ProductController extends Database
       }
       return $tags;
    }
-   public function getTagsById($id){
+   public function getTagsById($id)
+   {
       $sql = "SELECT tags.id,tags.name FROM tags LEFT JOIN product_tag ON tags.id = product_tag.tag_id WHERE product_id = '$id'";
       $result = $this->getData($sql);
       $tags = [];
@@ -134,7 +133,8 @@ class ProductController extends Database
       return $tags;
    }
 
-   public function getProductById(){
+   public function getProductById()
+   {
       $id = $_GET['id'];
       $sql = "SELECT products.id,products.name,products.description,products.price,products.quantity,products.image,
       GROUP_CONCAT(tags.name) as 'tagsname'
@@ -159,14 +159,34 @@ class ProductController extends Database
 
    public function updateProduct()
    {
-      if (isset($_POST['update'])) {
-         $id = $_POST['id'];
-         $name = $_POST['name'];
-         $price = $_POST['price'];
-         $description = $_POST['description'];
-         $sql = "UPDATE products SET name = '$name', price = '$price', description = '$description' WHERE id = $id";
-         $this->getData($sql);
+      $id = $_POST['id'];
+      $name = $_POST['name'];
+      $price = $_POST['price'];
+      $description = $_POST['description'];
+      $quantity = $_POST['quantity'];
+      $tags = $_POST['tag'];
+      if (!$this->validateForm($name, $description, $price, $quantity, $tags)) {
+         echo   "Fill all information";
+      } elseif (!$this->checkName($name)) {
+         echo "The product name was already existed";
+      } elseif (!$this->validateFile()) {
+         echo "File has error : ";
+      } else {
+         $sql = "UPDATE products SET name = '$name', price = '$price', description = '$description', quantity = '$quantity', image = '$this->imageFile' WHERE id = '$id'";
+         $result = $this->getData($sql);
+         if ($result) {
+            $sql = "DELETE FROM product_tag WHERE product_id = '$id'";
+            $result = $this->getData($sql);
+            foreach ($tags as $tag) {
+               $sql = "INSERT INTO product_tag(product_id,tag_id) VALUES('$id',(SELECT id FROM tags WHERE id='$tag'))";
+               $result = $this->getData($sql);
+            }
+            echo ("<script>location.href = './home.php';</script>");
+         } else {
+            echo "Some error occur when insert data";
+         }
       }
+      
    }
 
    public function deleteProduct()
@@ -174,6 +194,6 @@ class ProductController extends Database
       $id = $_GET['id'];
       $sql = "UPDATE products SET is_deleted=1 WHERE id = $id";
       $result = $this->getData($sql);
-      header("Location: home.php?view=listProduct");
+      echo ("<script>location.href = './home.php';</script>");
    }
 }
