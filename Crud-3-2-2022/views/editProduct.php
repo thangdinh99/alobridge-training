@@ -2,8 +2,10 @@
 require "../controller/productController.php";
 $productController = new ProductController();
 $product = $productController->getProductById();
-if(isset($_POST['updateProduct'])){
-    $productController->updateProduct();
+$tags = $productController->getTags();
+$tagsById = $productController->getTagsById();
+if (isset($_POST['updateProduct'])) {
+    $productController->updateProduct($product[0]['id']);
 }
 ?>
 <h1>Update product</h1>
@@ -53,8 +55,16 @@ if(isset($_POST['updateProduct'])){
             <div class="form-group">
                 <div class="row">
                     <label for="title" class="control-label col-5">Tags</label>
-                    <div class="controls col-7">
-                        
+                    <div class="form-check form-check-inline">
+                        <?php foreach ($tags as $tag) { ?>
+                            <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="<?php echo $tag['id']; ?>" <?php foreach ($tagsById as $tagById) {
+                                                                                                                                        if ($tag['id'] == $tagById['id']) {
+                                                                                                                                            echo 'checked';
+                                                                                                                                        }
+                                                                                                                                    } ?>>
+                            <label class="form-check-label"><?php echo $tag['name']; ?></label>"
+                        <?php }; ?>
+
                     </div>
                 </div>
             </div>

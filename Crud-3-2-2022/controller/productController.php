@@ -14,7 +14,7 @@ class ProductController extends Database
    public function pagination()
    {
 
-      $this->listResult = $this->getData("SELECT COUNT(*) as total FROM products");
+      $this->listResult = $this->getData("SELECT COUNT(*) as total FROM products where is_deleted = 0");
       $row = $this->listResult->fetch_assoc();
       $totalRecord = $row['total'];
       $this->currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -37,7 +37,7 @@ class ProductController extends Database
    {
       $sql = "SELECT * FROM products WHERE name = '$name' and is_delete = 0";
       $result = $this->getData($sql);
-      if ($result->num_rows > 0) {
+      if ($result ) {
          return false;
       }
       return true;
@@ -91,7 +91,12 @@ class ProductController extends Database
       $price = $_POST['price'];
       $description = $_POST['description'];
       $quantity = $_POST['quantity'];
-      $tags = $_POST['tag'];
+      $tags = $_POST['tag'] ? $_POST['tag'] : [];
+      $_SESSION['name'] = $name;
+      $_SESSION['price'] = $price;
+      $_SESSION['description'] = $description;
+      $_SESSION['quantity'] = $quantity;
+      $_SESSION['tags'] = $tags;
       if (!$this->validateForm($name, $description, $price, $quantity, $tags)) {
          echo   "Fill all information";
       } elseif (!$this->checkName($name)) {
@@ -106,6 +111,11 @@ class ProductController extends Database
                $sql = "INSERT INTO product_tag(product_id,tag_id) VALUES((SELECT id FROM products ORDER BY id DESC LIMIT 1),(SELECT id FROM tags WHERE id='$tag'))";
                $result = $this->getData($sql);
             }
+            unset($_SESSION['name']);
+            unset($_SESSION['price']);
+            unset($_SESSION['description']);
+            unset($_SESSION['quantity']);
+            unset($_SESSION['tags']);
             echo ("<script>location.href = './home.php';</script>");
          } else {
             echo "Some error occur when insert data";
@@ -122,8 +132,9 @@ class ProductController extends Database
       }
       return $tags;
    }
-   public function getTagsById($id)
+   public function getTagsById()
    {
+      $id= $_GET['id'];
       $sql = "SELECT tags.id,tags.name FROM tags LEFT JOIN product_tag ON tags.id = product_tag.tag_id WHERE product_id = '$id'";
       $result = $this->getData($sql);
       $tags = [];
@@ -157,9 +168,8 @@ class ProductController extends Database
       return $product;
    }
 
-   public function updateProduct()
+   public function updateProduct($id)
    {
-      $id = $_POST['id'];
       $name = $_POST['name'];
       $price = $_POST['price'];
       $description = $_POST['description'];
@@ -194,6 +204,10 @@ class ProductController extends Database
       $id = $_GET['id'];
       $sql = "UPDATE products SET is_deleted=1 WHERE id = $id";
       $result = $this->getData($sql);
-      echo ("<script>location.href = './home.php';</script>");
+      if ($result) {
+         echo true;
+      } else {
+         echo false;
+      }
    }
 }

@@ -1,7 +1,11 @@
 <?php
 session_start();
+if (isset($_COOKIE['userLogin'])) { //if login in session is not set
+   header("Location: ./views/home.php");
+}
 require './controller/loginController.php';
 $login = new LoginController();
+
 ?>
 <!DOCTYPE html>
 <html>
