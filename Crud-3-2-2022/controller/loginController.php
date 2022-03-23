@@ -36,6 +36,7 @@ class LoginController extends Database
          //expire cookie
          setcookie('username', $username, 30);
          setcookie('password', $password, 30);
+         $_SESSION['userLogin'] = true;
       };
    }
    public function redirectToLogin($userRes){
@@ -64,5 +65,8 @@ class LoginController extends Database
             }
          }
       }
+   }
+   public function logout(){
+      
    }
 }
