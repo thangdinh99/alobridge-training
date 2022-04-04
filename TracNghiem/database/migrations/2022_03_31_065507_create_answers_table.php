@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('is_correct')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
