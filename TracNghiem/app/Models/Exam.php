@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Exam extends Model
 {
+    use SoftDeletes;
     protected $table = 'exams';
 
     public function userExams()
@@ -13,9 +15,9 @@ class Exam extends Model
         return $this->hasMany(UserExam::class);
     }
 
-    public function questions()
+    public function examQuestions()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(ExamQuestion::class);
     }
 
 }

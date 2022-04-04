@@ -17,10 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->boolean('is_deleted')->default(false);
-            $table->unsignedBigInteger('exam_id');
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
