@@ -2,6 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +22,14 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('login', 'AuthController@login');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function (){
+    Route::get('/logout', [LogoutController::class,'logout'])->name('logout.api');
+    Route::get('/user', [UserController::class,'userdata'])->name('user.api');
 });
-
-Route::get('/user', function () {
+Route::post('/register', [RegisterController::class,'register'])->name('register.api');
+Route::post('/login', [LoginController::class,'login']);
+Route::get('/exam', [ExamController::class,'list'])->name('exam.list.api');
+Route::post('/exam', [ExamController::class,'find'])->name('exam.find.api');
+Route::get('/usertest', function () {
     return response()->json(['message' => 'User data'], 200);
 });
