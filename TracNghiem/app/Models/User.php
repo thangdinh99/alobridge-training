@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 
 class User extends Authenticatable
@@ -50,8 +51,12 @@ class User extends Authenticatable
         return $this->hasMany(Result::class);
     }
 
-    public function setPasswordAttribute($pass)
-    {
-        $this->attributes['password'] = Hash::make($pass);
-    }
+   
+
+    protected function password(): Attribute
+	{
+		return new Attribute(
+			set: fn ($value) => Hash::make($value),
+		);
+	}
 }

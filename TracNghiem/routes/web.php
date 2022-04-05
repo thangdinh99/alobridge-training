@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/apiDoc', function () {
+Route::get('/api-doc', function () {
     return view('apiDoc');
 });
