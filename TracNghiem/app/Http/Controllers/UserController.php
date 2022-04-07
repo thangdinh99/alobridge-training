@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    public function userdata(Request $request)
-    {
-        return $request->user();
-    }
 
-    public function getAllUser(Request $request)
+    public function getAllUser(Request $request) : JsonResponse
     {
         $user = User::all();
         return response()->json([

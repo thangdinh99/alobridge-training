@@ -13,11 +13,12 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\ResponseTrait;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     use ResponseTrait;
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request) : JsonResponse
     {
 
         try {
@@ -30,7 +31,7 @@ class AuthController extends Controller
         }
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request) : JsonResponse
     {
         try {
 
@@ -53,7 +54,7 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request) : JsonResponse
     {
         $request->user()->tokens()->delete();
         return $this->responseMessage(200, 'User logged out successfully');

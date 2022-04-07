@@ -18,7 +18,7 @@ class LoginRequest extends BaseRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'email' => 'required|string|max:255',

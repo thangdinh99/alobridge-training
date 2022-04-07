@@ -27,7 +27,7 @@ class BaseRequest extends FormRequest
      * @return array
      */
 
-    protected function failedValidation(Validator $validator) 
+    protected function failedValidation(Validator $validator) : void
     {
 
         $errors = (new ValidationException($validator))->errors();
