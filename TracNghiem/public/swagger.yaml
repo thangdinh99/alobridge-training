@@ -77,7 +77,7 @@ paths:
         400:
           description: Invalid username/password supplied
   /logout:
-    post:
+    get:
       tags:
       - auth
       summary: Logs out current logged in user session
@@ -88,6 +88,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - bearerAuth: []
   
 securityDefinitions:
   petstore_auth:
@@ -101,6 +103,13 @@ securityDefinitions:
     type: apiKey
     name: api_key
     in: header
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+        
 definitions:
   User:
     type: object

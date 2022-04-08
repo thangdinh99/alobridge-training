@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -27,6 +28,7 @@ class AuthController extends Controller
             $user = User::create($request->toArray());
             return $this->responseData(200, 'User created successfully', $user);
         } catch (Exception $error) {
+            Log::error(__CLASS__ . '->' . __FUNCTION__ . $error->getMessage());
             return $this->responseError(500, 'Internal Server Error', $error);
         }
     }
@@ -39,10 +41,8 @@ class AuthController extends Controller
             if (!Auth::attempt($credentials)) {
                 return $this->responseError(422, 'Unauthorized', 'Invalid credentials');
             }
-            
-            $user =  User::where('email', $request->email)->first();
 
-
+            $user = Auth::user();
             $tokenResult = $user->createToken('authToken')->plainTextToken;
             return response()->json([
                 'status_code' => 200,
@@ -50,6 +50,7 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
             ]);
         } catch (Exception $error) {
+            Log::error(__CLASS__ . '->' . __FUNCTION__ . $error->getMessage());
             return $this->responseError(500, 'Internal Server Error', $error);
         }
     }
