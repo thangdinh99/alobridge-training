@@ -10,16 +10,16 @@ class ResultQuestionAnswer extends Model
 
     public function result()
     {
-        return $this->belongsTo(Result::class);
+        return $this->belongsTo(Result::class, 'result_id', 'id');
     }
 
     public function question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 
     public function answer()
     {
-        return $this->belongsTo(Answer::class);
+        return $this->belongsTo(Answer::class, 'answer_id', 'id');
     }
 }

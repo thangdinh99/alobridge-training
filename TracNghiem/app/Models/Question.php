@@ -10,18 +10,22 @@ class Question extends Model
     use SoftDeletes;
     protected $table = 'questions';
 
-    public function examQuestion()
-    {
-        return $this->hasMany(ExamQuestion::class);
-    }
+    // public function examQuestion()
+    // {
+    //     return $this->hasMany(ExamQuestion::class, 'question_id', 'id');
+    // }
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'question_id', 'id');
     }
 
     public function resultQuestionAnswer()
     {
-        return $this->hasMany(ResultQuestionAnswer::class);
+        return $this->hasMany(ResultQuestionAnswer::class, 'question_id', 'id');
+    }
+
+    public function exams(){
+        return $this->belongsToMany(Exam::class, 'exam_question', 'question_id', 'exam_id');
     }
 }

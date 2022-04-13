@@ -10,14 +10,19 @@ class Exam extends Model
     use SoftDeletes;
     protected $table = 'exams';
 
-    public function userExams()
+    public function results()
     {
-        return $this->hasMany(UserExam::class);
+        return $this->hasMany(Result::class, 'exam_id', 'id');
     }
 
-    public function examQuestions()
-    {
-        return $this->hasMany(ExamQuestion::class);
-    }
+    // public function examQuestions()
+    // {
+    //     return $this->hasMany(ExamQuestion::class, 'exam_id', 'id');
+    // }
 
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'exam_question', 'exam_id', 'question_id');
+    }
+    
 }

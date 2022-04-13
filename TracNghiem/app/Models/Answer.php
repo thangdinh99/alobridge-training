@@ -11,8 +11,13 @@ class Answer extends Model
     use SoftDeletes;
     protected $table = 'answers';
 
+    protected $fillable = [
+        'id',
+        'name'
+    ];
+
     public function question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 }
